@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kenali Tingkat Nyeri Anda</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2d7a2d;
+    }
+    .scale {
+      text-align: center;
+      margin: 20px 0;
+    }
+    .scale button {
+      background-color: #e0e0e0;
+      border: none;
+      margin: 5px;
+      padding: 15px 20px;
+      font-size: 18px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .scale button:hover {
+      background-color: #a7d7a7;
+    }
+    .result {
+      margin-top: 30px;
+      background-color: #dff0d8;
+      padding: 20px;
+      border-radius: 8px;
+      font-size: 18px;
+      display: none;
+    }
+    .emoji {
+      font-size: 48px;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .form-section {
+      margin-top: 40px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .form-section input, .form-section textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button.submit-btn {
+      background-color: #2d7a2d;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button.submit-btn:hover {
+      background-color: #256125;
+    }
+  </style>
+</head>
+<body>
+  <h1>Kenali Tingkat Nyeri Anda</h1>
+  <p>Pilih angka yang sesuai dengan tingkat nyeri Anda saat ini:</p>
+
+  <!-- Skala Nyeri -->
+  <div class="scale" id="scale-buttons"></div>
+
+  <!-- Hasil dari Pilihan Skala -->
+  <div class="result" id="result">
+    <div class="emoji" id="emoji"></div>
+    <div id="description"></div>
+    <div id="example"></div>
+    <div id="tips"></div>
+  </div>
+
+  <!-- Form Pencatatan Nyeri -->
+  <div class="form-section">
+    <h2>Pencatatan Nyeri Harian</h2>
+    <form id="pain-form">
+      <label for="pain-level">Tingkat Nyeri (0-10):</label>
+      <input type="number" id="pain-level" min="0" max="10" required />
+
+      <label for="pain-location">Lokasi Nyeri:</label>
+      <input type="text" id="pain-location" placeholder="Contoh: Kepala, punggung, kaki" required />
+
+      <label for="pain-notes">Catatan Tambahan:</label>
+      <textarea id="pain-notes" rows="4" placeholder="Tuliskan kondisi tambahan..." required></textarea>
+
+      <button type="submit" class="submit-btn">Simpan Catatan</button>
+    </form>
+  </div>
+
+  <script>
+    const painData = {
+      0: { emoji: "😐", description: "Tidak ada nyeri.", example: "Sehat tanpa rasa sakit.", tips: "Tetap jaga pola hidup sehat." },
+      1: { emoji: "🙂", description: "Nyeri ringan.", example: "Nyeri otot ringan.", tips: "Istirahat cukup dan minum air." },
+      2: { emoji: "🙂", description: "Nyeri ringan.", example: "Nyeri yang tidak mengganggu.", tips: "Gunakan kompres hangat." },
+      // ... Tambahkan data untuk 3-10 sesuai kebutuhan
+      10: { emoji: "😭", description: "Nyeri sangat berat.", example: "Kondisi darurat, nyeri tak tertahankan.", tips: "Hubungi layanan medis segera!" }
+    };
+
+    const scaleDiv = document.getElementById('scale-buttons');
+    const resultDiv = document.getElementById('result');
+    const emojiDiv = document.getElementById('emoji');
+    const descriptionDiv = document.getElementById('description');
+    const exampleDiv = document.getElementById('example');
+    const tipsDiv = document.getElementById('tips');
+
+    // Membuat tombol untuk skala nyeri
+    for (let i = 0; i <= 10; i++) {
+      const btn = document.createElement('button');
+      btn.textContent = i;
+      btn.onclick = () => showPainInfo(i);
+      scaleDiv.appendChild(btn);
+    }
+
+    function showPainInfo(level) {
+      const data = painData[level];
+      emojiDiv.textContent = data.emoji;
+      descriptionDiv.innerHTML = `<strong>Deskripsi:</strong> ${data.description}`;
+      exampleDiv.innerHTML = `<strong>Contoh Kondisi:</strong> ${data.example}`;
+      tipsDiv.innerHTML = `<strong>Tips:</strong> ${data.tips}`;
+      resultDiv.style.display = 'block';
+      window.scrollTo({ top: resultDiv.offsetTop, behavior: 'smooth' });
+    }
+
+    // Simpan data dari form pencatatan nyeri
+    document.getElementById('pain-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const level = document.getElementById('pain-level').value;
+      const location = document.getElementById('pain-location').value;
+      const notes = document.getElementById('pain-notes').value;
+
+      alert(`Catatan Nyeri Tersimpan:\nTingkat: ${level}\nLokasi: ${location}\nCatatan: ${notes}`);
+    });
+  </script>
+</body>
+</html>
